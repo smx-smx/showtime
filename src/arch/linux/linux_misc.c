@@ -25,10 +25,14 @@
 #include <sched.h>
 #include <pthread.h>
 #include <string.h>
-#include <sys/prctl.h>
+
+#ifndef __CYGWIN__
+#include <sys/prctl.h>*/
+#include <linux/capability.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <linux/capability.h>
 #include <fcntl.h>
 #include <limits.h>
 #include <stdint.h>
@@ -38,7 +42,7 @@
 #include <string.h>
 #include <malloc.h>
 
-#include <sys/syscall.h>
+/*#include <sys/syscall.h>*/
 
 #include "showtime.h"
 #include "misc/callout.h"
@@ -73,6 +77,10 @@ showtime_get_system_type(void)
 int
 get_system_concurrency(void)
 {
+  #ifdef __CYGWIN__
+	//temp hack
+	return 1;
+  #else
   cpu_set_t mask;
   int i, r = 0;
 
@@ -82,6 +90,7 @@ get_system_concurrency(void)
     if(CPU_ISSET(i, &mask))
       r++;
   return r?:1;
+  #endif
 }
 
 
@@ -92,6 +101,7 @@ get_system_concurrency(void)
 void
 linux_check_capabilities(void)
 {
+  #ifndef __CYGWIN__
   struct __user_cap_header_struct x;
   struct __user_cap_data_struct s[3];
 
@@ -107,6 +117,7 @@ linux_check_capabilities(void)
     extern int posix_set_thread_priorities;
     posix_set_thread_priorities = 1;
   }
+  #endif
 }
 
 
@@ -116,9 +127,11 @@ linux_check_capabilities(void)
 void
 arch_sync_path(const char *path)
 {
+  #ifndef __CYGWIN__
   int fd = open(path, O_RDONLY);
   if(fd == -1)
     return;
   syscall(SYS_syncfs, fd);
   close(fd);
+  #endif
 }

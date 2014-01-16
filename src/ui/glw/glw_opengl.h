@@ -45,7 +45,7 @@
 #include <GL/gl.h>
 #endif
 
-#ifdef linux
+#if defined(linux) || defined(__CYGWIN__)
 #include <GL/glx.h>
 #include <GL/glxext.h>
 #endif

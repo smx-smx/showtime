@@ -803,6 +803,7 @@ be_file_playvideo_fh(const char *url, media_pipe_t *mp,
       fn = av_dict_get(st->metadata, "filename", NULL, AV_DICT_IGNORE_SUFFIX);
       mt = av_dict_get(st->metadata, "mimetype", NULL, AV_DICT_IGNORE_SUFFIX);
 
+	#ifndef __CYGWIN__
       TRACE(TRACE_DEBUG, "Video", "         filename: %s mimetype: %s size: %d",
 	    fn ? fn->value : "<unknown>",
 	    mt ? mt->value : "<unknown>",
@@ -811,6 +812,9 @@ be_file_playvideo_fh(const char *url, media_pipe_t *mp,
       if(st->attached_size)
 	attachment_load(&alist, url, st->attached_offset, st->attached_size,
 			freetype_context, fn ? fn->value : "<unknown>");
+	#else
+	//FIXME: This needs a fix
+	#endif
       break;
 
     default:

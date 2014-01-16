@@ -283,7 +283,7 @@ tcp_connect(const char *hostname, int port, char *errbuf, size_t errbufsize,
     r = connect(fd, (struct sockaddr *)&in, sizeof(struct sockaddr_in));
   } else {
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) || defined(__CYGWIN__)
     herr = 0;
     tmphstbuf = NULL; /* free NULL is a nop */
     /* TODO: AF_INET6 */

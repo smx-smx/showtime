@@ -52,6 +52,8 @@
 #include "video/vdpau.h"
 #endif
 
+#include <GL/glxext.h>
+
 #include "arch/linux/linux.h"
 
 //#define WITH_RECORDER

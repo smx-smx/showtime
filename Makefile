@@ -36,8 +36,8 @@ LIB=${BUILDDIR}/libshowtime
 
 include ${BUILDDIR}/config.mak
 
-CFLAGS_std = -Wall -Werror -Wwrite-strings -Wno-deprecated-declarations \
-		-Wmissing-prototypes -Wno-multichar  -Iext/dvd -std=gnu99
+CFLAGS_std = -Wall -Wwrite-strings -Wno-deprecated-declarations \
+		-Wmissing-prototypes -Wno-multichar -Iext/libav -Iext/dvd -std=gnu99
 
 CFLAGS = ${CFLAGS_std} ${OPTFLAGS}
 

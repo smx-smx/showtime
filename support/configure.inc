@@ -324,14 +324,24 @@ update_ext_submodule() {
 
 
 libav_setup() {
-    update_ext_submodule libav
+    if [ ! "$OSTYPE" == "cygwin" ]; then
+		update_ext_submodule libav
+	else
+		echo "FIXME: libav submodule, currently custom libav"
+		echo "FIXME: automate cygwin patch for libav"
+		echo "FIXME: UI on cygwin does not currently work"
+	fi
     echo "Configuring libav..."
     
     LIBAV_BUILD_DIR=${BUILDDIR}/libav/build
 
     mkdir -p "${LIBAV_BUILD_DIR}"
 
-    LIBAV_COMMON_FLAGS="--disable-encoders --disable-bsfs --disable-filters --disable-muxers --disable-devices --disable-demuxer=rtp --disable-protocol=rtp --disable-bzlib --disable-decoder=twinvq --disable-decoder=snow --disable-decoder=cavs --enable-encoder=mjpeg --disable-avconv --disable-avprobe --disable-avfilter --enable-muxer=spdif"
+    if [ "$OSTYPE" == "cygwin" ]; then
+		LIBAV_COMMON_FLAGS="--disable-encoders --disable-bsfs --disable-filters --disable-muxers --disable-devices --disable-demuxer=rtp --disable-protocol=rtp --disable-bzlib --disable-decoder=twinvq --disable-decoder=snow --disable-decoder=cavs --enable-encoder=mjpeg --disable-avfilter --enable-muxer=spdif --enable-avresample"
+	else
+		LIBAV_COMMON_FLAGS="--disable-encoders --disable-bsfs --disable-filters --disable-muxers --disable-devices --disable-demuxer=rtp --disable-protocol=rtp --disable-bzlib --disable-decoder=twinvq --disable-decoder=snow --disable-decoder=cavs --enable-encoder=mjpeg --disable-avconv --disable-avprobe --disable-avfilter --enable-muxer=spdif"
+	fi
 
     (cd ${LIBAV_BUILD_DIR} && ${TOPDIR}/ext/libav/configure ${LIBAV_ARCH_FLAGS} ${LIBAV_COMMON_FLAGS} --prefix=${EXT_INSTALL_DIR} --extra-cflags="${LIBAV_CFLAGS} ${EXTRA_CFLAGS}" --extra-ldflags="${LIBAV_LDFLAGS} ${EXTRA_LDFLAGS}" --cc="${CC}") || die
 
@@ -438,7 +448,7 @@ freetype_setup()
 
     
     (cd ${FREETYPE_BUILD_DIR} && \
-        CC=${TOOLCHAIN}gcc AR=${TOOLCHAIN}ar RANLIB=${TOOLCHAIN}ranlib \
+        CC="${CC}" AR=${TOOLCHAIN}ar RANLIB=${TOOLCHAIN}ranlib \
         ${FREETYPE_SRC_DIR}/configure \
         $1 \
 	--prefix=${EXT_INSTALL_DIR} \

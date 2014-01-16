@@ -30,6 +30,7 @@
  */
 const char *showtime_get_system_type(void);
 
+#ifndef __CYGWIN__
 #ifdef linux
 
 #elif defined(__APPLE__)
@@ -43,6 +44,7 @@ get_system_concurrency(void)
   return 1;
 }
 
+#endif
 #endif
 
 

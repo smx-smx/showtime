@@ -84,8 +84,10 @@ trace_net_raw(const char *fmt, ...)
       return;
     }
 
+#ifndef __CYGWIN__
 #ifndef linux
     log_server.sin_len = sizeof(log_server);
+#endif
 #endif
     log_server.sin_family = AF_INET;
     log_server.sin_port = htons(logport);

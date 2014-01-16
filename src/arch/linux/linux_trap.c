@@ -20,7 +20,7 @@
  */
 
 #include "linux.h"
-
+#ifndef __CYGWIN__
 #if defined(__i386__) || defined(__x86_64__) || defined(__arm__)
 
 
@@ -435,4 +435,5 @@ panic(const char *fmt, ...)
   abort();
 }
 
+#endif
 #endif

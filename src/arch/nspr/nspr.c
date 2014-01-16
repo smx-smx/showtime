@@ -82,7 +82,6 @@ PR_GetCurrentThread(void)
   return (PRThread *)(intptr_t)hts_thread_current();
 }
 
-
 PRStatus
 PR_NewThreadPrivateIndex(PRUintn *newIndex, PRThreadPrivateDTOR destructor)
 {

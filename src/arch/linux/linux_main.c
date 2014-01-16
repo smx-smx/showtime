@@ -163,7 +163,7 @@ main(int argc, char **argv)
 
   gconf.concurrency = get_system_concurrency();
 
-  trap_init();
+  //trap_init();
 
   showtime_init();
 

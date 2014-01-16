@@ -20,11 +20,12 @@ SRCS-$(CONFIG_LIBPULSE)  += src/audio2/pulseaudio.c
 SRCS-$(CONFIG_LIBASOUND) += src/audio2/alsa.c src/audio2/alsa_default.c 
 SRCS-$(CONFIG_WEBPOPUP) += src/arch/linux/linux_webpopup.c
 
-${BUILDDIR}/src/arch/linux/%.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS} \
--Wall -Werror -Wmissing-prototypes -Wno-cast-qual -Wno-deprecated-declarations
+#Ignore errors
+#${BUILDDIR}/src/arch/linux/%.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS} -Wall -Werror -Wmissing-prototypes -Wno-cast-qual -Wno-deprecated-declarations
+${BUILDDIR}/src/arch/linux/%.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS}
 
-${BUILDDIR}/src/prop/prop_glib_courier.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS} \
--Wall -Werror -Wmissing-prototypes -Wno-cast-qual -Wno-deprecated-declarations
+#${BUILDDIR}/src/prop/prop_glib_courier.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS} -Wall -Werror -Wmissing-prototypes -Wno-cast-qual -Wno-deprecated-declarations
+${BUILDDIR}/src/prop/prop_glib_courier.o : CFLAGS = $(CFLAGS_GTK) ${OPTFLAGS}
 
 
 DVDCSS_CFLAGS = -DHAVE_LINUX_DVD_STRUCT -DDVD_STRUCT_IN_LINUX_CDROM_H -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE

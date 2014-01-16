@@ -24,7 +24,6 @@
 #include "fileaccess.h"
 
 
-
 /**
  *
  */
@@ -39,7 +38,7 @@ cookie_read(void *fh, char *buf, size_t size)
  *
  */
 static int
-cookie_seek(void *fh, off64_t *offsetp, int whence)
+cookie_seek(void *fh, off_t *offsetp, int whence)
 {
   int64_t s = fa_seek(fh, *offsetp, whence);
   *offsetp = s;
